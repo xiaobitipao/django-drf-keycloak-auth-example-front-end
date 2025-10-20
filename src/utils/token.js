@@ -57,7 +57,7 @@ const isAccessTokenExpired = () => {
   }
   try {
     const now = dayjs();
-    const expirationDate = dayjs((expiresAt - 60) * 1000);
+    const expirationDate = dayjs((expiresAt - 30) * 1000);
     return expirationDate.isBefore(now) ? true : false;
   } catch {
     return false;
@@ -87,12 +87,11 @@ const setInfo = (res) => {
   // {
   //   "access_token": "access_token",
   //   "refresh_token": "refresh_token",
-  //   "scope": "openid profile email",
-  //   "grant_id": "grant_id",
   //   "id_token": "id_token",
+  //   "scope": "openid profile email",
   //   "token_type": "Bearer",
   //   "expires_in": 7199,
-  //   "expires_at": 1729050309,
+  //   "refresh_expires_in": 7199,
   //   "userinfo": {
   //     "displayName": "Jirou Tanaka",
   //     "emailAddress": "jirou@ibm.com",
@@ -100,11 +99,23 @@ const setInfo = (res) => {
   //     "avatar": "https://w3-unifiedprofile-api.dal1a.cirrus.ibm.com/v3/image/12345678"
   //   }
   // }
-  const { access_token, id_token, refresh_token, expires_at, userinfo } = res;
+
+  const {
+    access_token,
+    refresh_token,
+    id_token,
+    expires_in,
+    refresh_expires_in,
+    userinfo,
+  } = res;
   localStorage.setItem("access_token", access_token);
-  localStorage.setItem("id_token", id_token);
   localStorage.setItem("refresh_token", refresh_token);
-  localStorage.setItem("expires_at", expires_at); // seconds, not millisecond
+  localStorage.setItem("id_token", id_token);
+  localStorage.setItem("expires_at", dayjs().add(expires_in, "second").unix()); // seconds, not millisecond
+  localStorage.setItem(
+    "refresh_expires_at",
+    dayjs().add(refresh_expires_in, "second").unix()
+  );
   if (userinfo) {
     localStorage.setItem("userinfo", JSON.stringify(userinfo));
   }
@@ -112,9 +123,10 @@ const setInfo = (res) => {
 
 const removeInfo = () => {
   localStorage.removeItem("access_token");
-  localStorage.removeItem("id_token");
   localStorage.removeItem("refresh_token");
+  localStorage.removeItem("id_token");
   localStorage.removeItem("expires_at");
+  localStorage.removeItem("refresh_expires_at");
   localStorage.removeItem("userinfo");
 };
 
