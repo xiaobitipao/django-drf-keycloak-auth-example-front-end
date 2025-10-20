@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  unstable_HistoryRouter as HistoryRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import { message } from "antd";
+
+import "./App.css";
+
+import { history } from "@/utils";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import Auth from "@/components/Auth";
+import Layout from "@/pages/Layout";
+
+/**
+ * antd message setting
+ * Set maxCount to 1 to prevent multiple messages from being displayed at the same time.
+ */
+message.config({
+  duration: 2,
+  maxCount: 1,
+});
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <HistoryRouter history={history}>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        ></Route>
+        <Route path="/auth/callback" element={<Auth />} />
+      </Routes>
+    </HistoryRouter>
+  );
 }
 
-export default App
+export default App;
