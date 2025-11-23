@@ -16,4 +16,4 @@ export const URI_OAUTH2_LOGIN =
 export const URI_OAUTH2_TOKEN =
   "/oauth2/token?redirect_uri={host}/auth/callback&code={code}";
 // Refresh token
-export const URI_OAUTH2_REFRESH_TOKEN = "/oauth2/refresh_token";
+export const URI_OAUTH2_REFRESH_TOKEN = "/oauth2/refresh/";
