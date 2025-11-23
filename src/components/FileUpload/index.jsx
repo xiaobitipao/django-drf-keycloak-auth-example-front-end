@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button } from 'antd';
 
 const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -38,12 +39,9 @@ const FileUpload = () => {
           accept=".csv"
           onChange={handleFileSelect}
         />
-        <button
-          onClick={handleUpload}
-          disabled={!selectedFile || isUploading}
-        >
+        <Button type="primary" onClick={handleUpload} disabled={!selectedFile || isUploading}      >
           {isUploading ? 'アップロード中...' : 'アップロードCSV'}
-        </button>
+        </Button>
       </div>
       <textarea
         rows={5}

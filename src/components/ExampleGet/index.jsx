@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Button } from 'antd';
 
 export default function ExampleGet({ name, api }) {
   const [resp, setResp] = useState(null);
@@ -18,8 +19,10 @@ export default function ExampleGet({ name, api }) {
   return (
     <section style={{ marginBottom: 20 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <h3>GET: {name}</h3>
-        <button onClick={callGet}>Submit</button>
+        <h2>GET: {name}</h2>
+        <Button type="primary" onClick={callGet}        >
+          Submit
+        </Button>
       </div>
       <textarea
         rows={5}

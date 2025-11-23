@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Button } from 'antd';
 
 export default function ExamplePost({ name, api }) {
   const [resp, setResp] = useState(null);
@@ -25,8 +26,10 @@ export default function ExamplePost({ name, api }) {
   return (
     <section>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <h3>POST: {name}</h3>
-        <button onClick={callPost}>Submit</button>
+        <h2>POST: {name}</h2>
+        <Button type="primary" onClick={callPost}        >
+          Submit
+        </Button>
       </div>
       <div style={{ marginBottom: 8 }}>
         <label>payload (JSON):</label>
